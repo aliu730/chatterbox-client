@@ -28,14 +28,20 @@
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
       <form id="target">
-        <input type="text">
+        <input type="text" id="textBox">
         <input type="submit" value="Post Message">
       </form>
+      <p>
+        <select id="roomSelect">
+          <option></option>
+        </select>
+      </p>
       <!-- <button class="send">Send Message</button> -->
       <button class="display">Display Chats</button>
+      <button class="clear">Clear Chats</button>
     </div>
     <div id="chats">
-      <span class="messages"></span>
+      <!-- <span class="messages"></span> -->
     </div>
   </body>
 </html>

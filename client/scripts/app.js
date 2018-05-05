@@ -1,11 +1,31 @@
 var app = {};
 
 $(document).ready(function() {
+  var message = {
+    username: "hsadwa",
+    text: "trolo",
+    roomname: "4chan"
+  };
   // YOUR CODE HERE:
   app.init = function() {
-    app.send();
-    app.fetch();
+    $( "#target" ).submit(function(event) {
+      app.renderMessage();
+      event.preventDefault(); 
+    });
   };
+
+  app.renderMessage = function() {
+    message.text = $('#textBox').val();
+    $('#chats').prepend(createDiv(message));
+  };
+
+  app.renderRoom = function (roomName) {
+    $('#roomSelect').prepend($('<option>' + roomName + '</option'));
+  };
+
+  app.clearMessages = function() {
+    $("#chats").empty();
+  }
 
   app.send = function(message) {
     $.ajax({
@@ -15,6 +35,9 @@ $(document).ready(function() {
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
+        data.username = message.username;
+        data.text = message.text;
+        data.roomname = message.roomname;
         console.log(data);
         console.log('chatterbox: Message sent');
       },
@@ -24,6 +47,7 @@ $(document).ready(function() {
       }
     });
   };
+
   app.server = 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages';
   app.fetch = function() {
     $.ajax({
@@ -35,7 +59,10 @@ $(document).ready(function() {
       success: function (data) {
         var messages = data.results;
         for (var i = 0; i < messages.length; i++) {
-          $('.messages').append(createDiv(messages[i]));
+          $('#chats').append(createDiv(messages[i]));
+          if ($.contains($('#roomSelect'), $('<option>' + messages[i].roomname + '</option>'))) {
+            app.renderRoom(messages[i].roomname);         
+          }
         }
       },
       error: function (data) {
@@ -51,11 +78,9 @@ $(document).ready(function() {
     var callResult = app.fetch();
   });
 
-  var message = {
-    username: 'shawndrost',
-    text: 'trololo',
-    roomname: '4chan'
-  };
+  $('.clear').on('click', function() {
+    app.clearMessages();
+  });
 
   app.init();
 });
@@ -72,7 +97,7 @@ var parseString = function (obj) { // takes in a obj
       return 'bad input';
     } else {
     // debugger;
-      text = JSON.stringify(obj.username) + '\n' + JSON.stringify(obj.createdAt) + '\n' + JSON.stringify(obj.text);
+      text = JSON.stringify(obj.username) + '\n' + JSON.stringify(obj.createdAt) + '\n' + JSON.stringify(obj.text) + '\n' + "room: " + JSON.stringify(obj.roomname);
     }
   }
   return text;
