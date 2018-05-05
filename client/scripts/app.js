@@ -24,7 +24,7 @@ $(document).ready(function() {
       }
     });
   };
-  app.server = 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages'
+  app.server = 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages';
   app.fetch = function() {
     $.ajax({
       url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
@@ -41,14 +41,14 @@ $(document).ready(function() {
         console.error('chatterbox: Failed to retrieve message', data);
       }
     });
-  }
+  };
 
   //create a function that displays messages retrieved from parse server
-    $('.display').on('click', function() {
-      // trigger the ajax method to retrieve messages
-      var tempDiv = $('<div>');
-      var callResult = app.fetch();
-    });
+  $('.display').on('click', function() {
+    // trigger the ajax method to retrieve messages
+    var tempDiv = $('<div>');
+    var callResult = app.fetch();
+  });
 
   var message = {
     username: 'shawndrost',
