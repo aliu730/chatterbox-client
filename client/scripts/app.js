@@ -30,6 +30,7 @@ $(document).ready(function() {
       url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
       type: 'GET',
       contentType: 'application/json',
+      data: {order: '-createdAt'},
       dataType: 'json',
       success: function (data) {
         var messages = data.results;
