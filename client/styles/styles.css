@@ -1,5 +1,5 @@
 body {
-    background: #eee;
+    background: #fffacd;
     text-align: center;
     padding: 0 25px;
     font-family: arial, sans-serif;
@@ -9,8 +9,7 @@ body {
     width: 500px;
     margin: auto;
     text-align: left;
-    background: white;
-    padding: 50px 60px;
+    background: #ddd;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
 }
@@ -62,7 +61,7 @@ form input[type=text] {
 .chat {
     padding: 5px;
     margin-bottom: 5px;
-    background-color: #eee;
+    background-color: #fffacd;
 }
 
 .chat .username {
@@ -88,3 +87,11 @@ form input[type=text] {
     background-color: #0090da;
 }
 
+.individualMessages {
+    color: black;
+    background-color: white;
+    margin: 5px;
+    padding: 2px white;
+    float: left;
+    border: 2px white;
+}
