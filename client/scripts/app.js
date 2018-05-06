@@ -13,9 +13,9 @@ $(document).ready(function() {
       event.preventDefault(); 
     });
   };
-
   app.renderMessage = function() {
     message.text = $('#textBox').val();
+    app.send(message);
     $('#chats').prepend(createDiv(message));
   };
 
@@ -60,10 +60,14 @@ $(document).ready(function() {
         var messages = data.results;
         for (var i = 0; i < messages.length; i++) {
           $('#chats').append(createDiv(messages[i]));
-          if ($.contains($('#roomSelect'), $('<option>' + messages[i].roomname + '</option>'))) {
-            app.renderRoom(messages[i].roomname);         
-          }
+          // if ($.contains($('#roomSelect'), $('<option>' + messages[i].roomname + '</option>'))) {
+          //   app.renderRoom(messages[i].roomname);              
+          // }\
         }
+        var friends = [];
+        $('#chats').on('click', '.username', function (event) {
+          console.log(event.target);
+        });
       },
       error: function (data) {
         console.error('chatterbox: Failed to retrieve message', data);
@@ -97,13 +101,18 @@ var parseString = function (obj) { // takes in a obj
       return 'bad input';
     } else {
     // debugger;
-      text = JSON.stringify(obj.username) + '\n' + JSON.stringify(obj.createdAt) + '\n' + JSON.stringify(obj.text) + '\n' + "room: " + JSON.stringify(obj.roomname);
+      text =  '<span class=username>'+ String((obj.username)) + '</span>' + '\n' + JSON.stringify(obj.createdAt) + '\n' + JSON.stringify(obj.text) + '\n' + "room: " + JSON.stringify(obj.roomname);
     }
   }
   return text;
 };
 
+
 var createDiv = function(obj) {
-  var text = $('<div class="individualMessages">').text(parseString(obj));
-  return text;
+  var user = _.escape((obj.username));
+  var time = _.escape((obj.createdAt));
+  var text = _.escape((obj.text));
+  var roomName = _.escape(obj.roomname);
+  var divContent = $('<div class="individualMessages">' + '<span class=username>' + user + '</span>' + '\n' + time + '\n' + text + '\n' + '</div>');
+  return divContent;
 };
