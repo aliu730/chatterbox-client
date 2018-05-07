@@ -20,8 +20,11 @@ $(document).ready(function() {
   };
 
   app.renderRoom = function (roomName) {
-    $('#roomSelect').prepend($('<option>' + roomName + '</option'));
+    $('#roomSelect').append(('<option>' + roomName + '</option'));
   };
+  app.renderFriends = function(friend) {
+    $('#friends').append(('<option>' + friend + '</option>'));
+  }
 
   app.clearMessages = function() {
     $("#chats").empty();
@@ -38,6 +41,7 @@ $(document).ready(function() {
         data.username = message.username;
         data.text = message.text;
         data.roomname = message.roomname;
+        data.createdAt = message.createdAt;
         console.log(data);
         console.log('chatterbox: Message sent');
       },
@@ -58,16 +62,25 @@ $(document).ready(function() {
       dataType: 'json',
       success: function (data) {
         var messages = data.results;
+        var rooms = [];
         for (var i = 0; i < messages.length; i++) {
           $('#chats').append(createDiv(messages[i]));
-          // if ($.contains($('#roomSelect'), $('<option>' + messages[i].roomname + '</option>'))) {
-          //   app.renderRoom(messages[i].roomname);              
-          // }\
+            if (!rooms.includes(messages[i].roomname)) {
+              rooms.push(messages[i].roomname)
+              app.renderRoom(messages[i].roomname);       
+            }       
         }
         var friends = [];
         $('#chats').on('click', '.username', function (event) {
-          console.log(event.target);
+          if (!friends.includes($(this).text())) {
+            friends.push(($(this).text()));
+            //console.log($(this).text())
+            app.renderFriends($(this).text());
+          }
         });
+        var showFriends = function(form) {
+          console.log(form);
+        }
       },
       error: function (data) {
         console.error('chatterbox: Failed to retrieve message', data);
@@ -79,6 +92,7 @@ $(document).ready(function() {
   $('.display').on('click', function() {
     // trigger the ajax method to retrieve messages
     var tempDiv = $('<div>');
+    app.clearMessages();
     var callResult = app.fetch();
   });
 

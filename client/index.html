@@ -32,7 +32,12 @@
         <input type="submit" value="Post Message">
       </form>
       <p>
+        <h5>Rooms</h5>
         <select id="roomSelect">
+          <option></option>
+        </select>
+        <h5>Friends</h5>
+        <select id="friends" onchange="showFriends(this.form)">
           <option></option>
         </select>
       </p>
